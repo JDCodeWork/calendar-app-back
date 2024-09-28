@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator")
+
 /**
  * Login user
  * @param {import("express").Request} req 
