@@ -1,28 +1,21 @@
-
-/**
- * @module checkFields
- */
 const { validationResult, check } = require('express-validator');
 
 /**
- * @callback FieldValidator
- * @param {(fieldName: string, customMessage?: string) => import('express-validator').ValidationChain} eval - Función utilizada para validar campos.
+ * @typedef {Object<string, (customMessage?: string) => import('express-validator').ValidationChain>} FieldsValidations
  */
 
 /**
- * Crea un middleware de validación para los campos especificados.
- * @param {FieldValidator[]} fields - Array de funciones de validación que devuelven un Validador.
- * @returns {Function[]} - Un array de middleware de validación.
+ * Middleware that validate all specified fields  
+ * @param {FieldsValidations} fields - An object where the keys are field names and the values are validation functions.
+ * @returns {Function[]}.
  */
 const checkFields = (fields) => {
-  const validations = fields.map(eval =>
-    eval(
-      (
-        fieldName, customMessage) =>
-        check(
-          fieldName,
-          customMessage || `${fieldName} is required`
-        )
+  const validations = Object.keys(fields).map(fieldName =>
+    fields[fieldName]((customMessage) =>
+      check(
+        fieldName,
+        customMessage || `${fieldName} is required`
+      )
     )
   )
 
@@ -41,6 +34,8 @@ const checkFields = (fields) => {
       next()
     }
   ]
-};
+}
+
+
 
 module.exports = checkFields
