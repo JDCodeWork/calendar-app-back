@@ -10,6 +10,7 @@ const {
   createUser,
   renewToken
 } = require("../controllers/auth.controller");
+const { validateToken } = require("../middlewares/validate-token.middleware");
 
 
 const router = express.Router()
@@ -25,6 +26,6 @@ router.post(
 )
 
 // Renew Token
-router.get("/renew", renewToken)
+router.get("/renew", validateToken, renewToken)
 
 module.exports = router
