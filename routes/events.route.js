@@ -6,15 +6,20 @@ const {
   deleteEvent
 } = require("../controllers/events.controller")
 const { validateToken } = require("../middlewares/validate-token.middleware")
+const checkFields = require("../middlewares/check-fields.middleware")
+const { CreateEventValidations } = require("../validations/events.validator")
 
 const router = express.Router()
 
-router.get('/', validateToken, getEvents)
+// Use validateToken middleware in all endpoints of /events
+router.use(validateToken)
 
-router.post('/', validateToken, createEvent)
+router.get('/', getEvents)
 
-router.put('/:id', validateToken, updateEvent)
+router.post('/', checkFields(CreateEventValidations), createEvent)
 
-router.delete('/:id', validateToken, deleteEvent)
+router.put('/:id', updateEvent)
+
+router.delete('/:id', deleteEvent)
 
 module.exports = router

@@ -1,7 +1,7 @@
 const { validationResult, check } = require('express-validator');
 
 /**
- * @typedef {Object<string, (customMessage?: string) => import('express-validator').ValidationChain>} FieldsValidations
+ * @typedef {Object<string, (validate: () => import('express-validator').ValidationChain ) => Function>} FieldsValidations
  */
 
 /**
