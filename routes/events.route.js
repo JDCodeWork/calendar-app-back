@@ -18,7 +18,7 @@ router.get('/', getEvents)
 
 router.post('/', checkFields(CreateEventValidations), createEvent)
 
-router.put('/:id', updateEvent)
+router.put('/:id', checkFields(CreateEventValidations), updateEvent)
 
 router.delete('/:id', deleteEvent)
 
